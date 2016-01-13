@@ -17,10 +17,10 @@ app.get('/', function (req, res) {
     if (err) {
       res.send(err);
     }
-    account.getAddresses(null,function(err,addrs){
+    account.getTransactions(null,function(err,addrs){
       var addressArray = [];
       for (var addr in addrs) {
-        addressArray.push(addrs[addr].address);
+        addressArray.push(addrs[addr]);
       }
       res.send(addressArray);
     });
