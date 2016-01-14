@@ -49,7 +49,8 @@ app.get('/', function (req, res) {
 });
 
 app.get('/callback',function(req,res){
-  console.log(req,res);
+  console.log(req);
+  res.status(200).send({status:OK});
 });
 
 app.listen(3000, function () {
