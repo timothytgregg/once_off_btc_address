@@ -4,6 +4,9 @@ var express = require('express');
 var app = express();
 var tokens=require('./env.js');
 
+app.use(express.static('public'));
+app.set('view engine', 'jade');
+
 //blockr api url
 //tack on btc address for oddress json info
 var blockrUrl = 'https://btc.blockr.io/api/v1/address/info/'
@@ -22,7 +25,8 @@ app.get('/', function (req, res) {
   client.getAccount('primary', function(err, account) {
 
     if (err) {
-      res.send(err);
+      res.write(err);
+      res.end();
     }
 
     account.getAddresses(null,function(err,addrs){
@@ -30,11 +34,11 @@ app.get('/', function (req, res) {
       request(blockrUrl+address,function(err,response,data){
         if(JSON.parse(data).data.nb_txs){
           account.createAddress(null,function(err,newAddress){
-            res.send(newAddress.address);
+            res.render('index',{address:newAddress})
           });
         }
         else {
-          res.send(address);
+          res.render('index',{address:address})
         }
       });
       // res.send('most recent btc address:'+address);

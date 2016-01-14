@@ -1,5 +1,5 @@
 {
-  "name": "coinbase",
+  "name": "once-off-btc-address",
   "version": "1.0.0",
   "description": "wdi p4",
   "main": "app.js",
@@ -9,6 +9,10 @@
   "author": "tim gregg",
   "license": "ISC",
   "dependencies": {
+    "bitcoin": "^3.0.1",
+    "coinbase": "^2.0.2",
+    "express": "^4.13.3",
+    "jade": "^1.11.0",
     "request": "^2.67.0"
   }
 }
