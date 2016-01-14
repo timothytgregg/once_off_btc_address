@@ -48,6 +48,10 @@ app.get('/', function (req, res) {
 
 });
 
+app.post('/callback',function(req,res){
+  console.log(req.body);
+  res.status(200).send({status:'OK'});
+});
 app.get('/callback',function(req,res){
   console.log(req.body);
   res.status(200).send({status:'OK'});
