@@ -8,7 +8,7 @@ app.use(express.static('public'));
 app.set('view engine', 'jade');
 
 //blockr api url
-//tack on btc address for oddress json info
+//tack on btc address for address json info
 var blockrUrl = 'https://btc.blockr.io/api/v1/address/info/'
 
 var Client = require('coinbase').Client;
@@ -30,15 +30,15 @@ app.get('/', function (req, res) {
     }
 
     account.getAddresses(null,function(err,addrs){
-      address=addrs[0].address
+      address=addrs[0].address;
       request(blockrUrl+address,function(err,response,data){
         if(JSON.parse(data).data.nb_txs){
           account.createAddress(null,function(err,newAddress){
-            res.render('index',{address:newAddress.address})
+            res.render('index',{address:newAddress.address});
           });
         }
         else {
-          res.render('index',{address:address})
+          res.render('index',{address:address});
         }
       });
       // res.send('most recent btc address:'+address);
@@ -46,6 +46,10 @@ app.get('/', function (req, res) {
 
   });
 
+});
+
+app.get('/callback',function(req,res){
+  console.log(req,res);
 });
 
 app.listen(3000, function () {
