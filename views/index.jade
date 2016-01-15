@@ -1,6 +1,6 @@
 style
   include css/styles.css
-div
+div(id="container")
   img(src="bitcoin_logo.png")
   include qr.html
   h3 pristine btc address: #{address}
@@ -11,6 +11,6 @@ div
             render: 'image',
             text: '#{address}',
             ecLevel: 'L',
-            size: "400"
+            size: "200"
         });
     });
