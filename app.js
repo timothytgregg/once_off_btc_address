@@ -1,11 +1,13 @@
 var http = require('http');
 var request = require('request');
 var express = require('express');
-var app = express();
 var tokens=require('./env.js');
 var bodyParser = require('body-parser');
-
+var MongoClient = require('mongodb').MongoClient
+var format = require('util').format;
 var Client = require('coinbase').Client;
+
+var app = express();
 
 app.set('view engine', 'jade');
 
