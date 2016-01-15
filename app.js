@@ -45,9 +45,25 @@ app.get('/', function (req, res) {
 });
 
 app.post('/callback',function(req,res){
-  console.log(req.body);
-
   res.status(200).send({status:'OK'});
+
+  MongoClient.connect('mongodb://127.0.0.1:27017/once_off_btc_address', function(err, db) {
+      if(err) throw err;
+
+      var collection = db.collection('addresses');
+      collection.insert(req.body, function(err, docs) {
+        console.log(docs);
+      });
+
+      // Locate all the entries using find
+      collection.find().toArray(function(err, results) {
+          console.dir(results);
+          // Let's close the db
+          db.close();
+      });
+  });
+
+  console.log(req.body);
 });
 
 app.get('/callback',function(req,res){
