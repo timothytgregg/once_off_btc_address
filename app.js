@@ -48,7 +48,9 @@ app.get('/', function (req, res) {
         var collection=db.collection('addresses');
 
         collection.find().toArray(function(err, results) {
-          console.dir(results);
+          for (var entry in results) {
+            console.dir(results[entry]);
+          }
         });
       })
 
