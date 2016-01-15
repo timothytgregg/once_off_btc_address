@@ -2,14 +2,16 @@ style
   include css/styles.css
 div(id="container")
   img(src="bitcoin_logo.png")
-  include qr.html
+  div(id="qrcode")
+    a(href="bitcoin:#{address}")
   h3 pristine btc address: #{address}
+  script(src="js/jquery-2.1.4.min.js")
   script(src="js/jquery-qrcode.js")
   script.
     $(function() {
         $('#qrcode a').qrcode({
             render: 'image',
-            text: '#{address}',
+            text: 'aoeu',
             ecLevel: 'L',
             size: "200"
         });
