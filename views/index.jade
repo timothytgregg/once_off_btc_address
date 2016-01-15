@@ -1,13 +1,16 @@
-img(src="bitcoin_logo.png")
-include qr.html
-h3 pristine btc address: #{address}
-script(src="js/jquery-qrcode.js")
-script.
-  $(function() {
-      $('#qrcode a').qrcode({
-          render: 'image',
-          text: '#{address}',
-          ecLevel: 'L',
-          size: "400"
-      });
-  });
+style
+  include css/styles.css
+div
+  img(src="bitcoin_logo.png")
+  include qr.html
+  h3 pristine btc address: #{address}
+  script(src="js/jquery-qrcode.js")
+  script.
+    $(function() {
+        $('#qrcode a').qrcode({
+            render: 'image',
+            text: '#{address}',
+            ecLevel: 'L',
+            size: "400"
+        });
+    });
