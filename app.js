@@ -49,7 +49,7 @@ app.get('/', function (req, res) {
 
         collection.find().toArray(function(err, results) {
           for (var entry in results) {
-            console.dir(results[entry]);
+            console.dir(results[entry].address);
           }
         });
       })
