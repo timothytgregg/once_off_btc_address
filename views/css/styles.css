@@ -1,8 +1,10 @@
 #container{
   margin: 6em auto;
   width:40%;
-  padding: 1em;
-  border: 2px dashed black;
+  padding: 4em;
+  border: 2px solid black;
+  background-color: lightgrey;
+  border-radius:20%
 }
 
 img{
