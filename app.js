@@ -34,17 +34,7 @@ app.get('/', function (req, res) {
 
     account.getAddresses(null,function(err,addrs){
       address=addrs[0].address;
-      request(blockrUrl+address,function(err,response,data){
-        if(JSON.parse(data).data.nb_txs){
-          account.createAddress(null,function(err,newAddress){
-            res.render('index',{address:newAddress.address});
-          });
-        }
-        else {
-          res.render('index',{address:address});
-        }
-      });
-      // res.send('most recent btc address:'+address);
+
     });
 
   });
@@ -53,6 +43,7 @@ app.get('/', function (req, res) {
 
 app.post('/callback',function(req,res){
   console.log(req.body);
+
   res.status(200).send({status:'OK'});
 });
 
