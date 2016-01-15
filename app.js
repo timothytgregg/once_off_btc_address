@@ -10,7 +10,10 @@ var Client = require('coinbase').Client;
 app.set('view engine', 'jade');
 
 app.use(express.static('public'));
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 //blockr api url
 //tack on btc address for address json info
