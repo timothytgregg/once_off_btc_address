@@ -40,6 +40,18 @@ app.get('/', function (req, res) {
     account.getAddresses(null,function(err,addrs){
       address=addrs[0].address;
 
+      MongoClient.connect('mongodb://127.0.0.1:27017/once_off_btc_address',
+      function(err,db){
+
+        if(err) throw err;
+
+        var collection=db.collection('addresses');
+
+        collection.find().toArray(function(err, results) {
+          console.dir(results);
+        });
+      })
+
     });
 
   });
@@ -50,19 +62,14 @@ app.post('/callback',function(req,res){
   res.status(200).send({status:'OK'});
 
   MongoClient.connect('mongodb://127.0.0.1:27017/once_off_btc_address', function(err, db) {
-      if(err) throw err;
 
-      var collection = db.collection('addresses');
-      collection.insert(req.body, function(err, docs) {
-        console.log(docs);
-      });
+    if(err) throw err;
 
-      // Locate all the entries using find
-      collection.find().toArray(function(err, results) {
-          console.dir(results);
-          // Let's close the db
-          db.close();
-      });
+    var collection = db.collection('addresses');
+    collection.insert(req.body, function(err, docs) {
+      console.log(docs);
+    });
+
   });
 
   console.log(req.body);
