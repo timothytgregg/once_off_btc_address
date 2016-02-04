@@ -52,7 +52,7 @@ app.get('/', function (req, res) {
         var collection=db.collection('addresses');
         collection.find().toArray(function(err, results) {
           for (var entry in results) {
-            if (address==results[entry].address) {
+            if (address==results[entry].address||address==results[entry].data.resource.address) {
               account.createAddress(null,function(err,newAddress){
                 if(err) throw err;
                 res.render('index',{address:newAddress.address});
