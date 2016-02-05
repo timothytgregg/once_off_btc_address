@@ -52,7 +52,7 @@ app.get('/', function (req, res) {
         var collection=db.collection('addresses');
         collection.find().toArray(function(err, results) {
           for (var entry in results) {
-            if (address==results[entry].address||address==results[entry].data.resource.address) {
+            if (address==results[entry].address) {
               account.createAddress(null,function(err,newAddress){
                 if(err) throw err;
                 res.render('index',{address:newAddress.address});
@@ -79,7 +79,7 @@ app.post('/callback',function(req,res){
 
     //inserts received address into 'addresses' collection
     var collection = db.collection('addresses');
-    collection.insert(req.body, function(err, docs) {
+    collection.insert(req.body.data.resource, function(err, docs) {
       console.log(docs);
     });
 
