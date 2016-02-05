@@ -79,7 +79,7 @@ app.post('/callback',function(req,res){
 
     //inserts received address into 'addresses' collection
     var collection = db.collection('addresses');
-    collection.insert(req.body.data.resource, function(err, docs) {
+    collection.insert(req.body, function(err, docs) {
       console.log(docs);
     });
 
