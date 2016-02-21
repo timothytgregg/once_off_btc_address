@@ -23,21 +23,36 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.get('/', function (req, res) {
+  //container variable for most recent bitcoin address
   var address=null;
+
+  //gets primary coinbase wallet
   client.getAccount('primary', function(err, account) {
-    //gets primary coinbase wallet
     if (err) throw err;
+
+    //gets array of most recent addresses
     account.getAddresses(null,function(err,addrs){
-      //gets most recent address
+      //sets address variable to most recently created address
       address=addrs[0].address;
-      MongoClient.connect(
-        'mongodb://127.0.0.1:27017/once_off_btc_address',
-        function(err,db){
+
+      //connects to mongodb
+      MongoClient.connect('mongodb://127.0.0.1:27017/once_off_btc_address',
+      function(err,db){
+
         if(err) throw err;
+
+        //grabs array of all addresses from db,
+        //if most recently generated address
+        //matches any addresses in the database
+        //(i.e., has received a transaction)
+        //then, creates a new address
+        //and renders index with that one,
+        //else, reders index with most recently generated one
+        //which should not have received any transactions yet
         var collection=db.collection('addresses');
         collection.find().toArray(function(err, results) {
           for (var entry in results) {
-            if (address==results[entry].address) {
+            if (address==results[entry].data.resource.address) {
               account.createAddress(null,function(err,newAddress){
                 if(err) throw err;
                 res.render('index',{address:newAddress.address});
@@ -46,18 +61,23 @@ app.get('/', function (req, res) {
           }
           res.render('index',{address:address});
         });
-      })
+
+      });
     });
   });
 });
 
+//listening for post requests from coinbase,
+//sent whenever a transaction is broadcast to any of my addresses
 app.post('/callback',function(req,res){
+
   res.status(200).send({status:'OK'});
 
   MongoClient.connect('mongodb://127.0.0.1:27017/once_off_btc_address', function(err, db) {
 
     if(err) throw err;
 
+    //inserts received address into 'addresses' collection
     var collection = db.collection('addresses');
     collection.insert(req.body, function(err, docs) {
       console.log(docs);
@@ -66,11 +86,7 @@ app.post('/callback',function(req,res){
   });
 
   console.log(req.body);
-});
 
-app.get('/callback',function(req,res){
-  console.log(req.body);
-  res.status(200).send({status:'OK'});
 });
 
 app.listen(3000, function () {
